@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary: #00f0ff;
+  --secondary: #ff00d4;
+  --accent: #9d4edd;
+  --dark-1: #0a0a12;
+  --dark-2: #12121f;
+  --dark-3: #1a1a2e;
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.08);
+  --glow-cyan: rgba(0,240,255,0.4);
+  --glow-magenta: rgba(255,0,212,0.4);
+  --text: #e8e8f0;
+  --muted: #8888aa;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--dark-1);color:#fff;overflow-x:hidden;min-height:100vh;}
+/* AMBIENT BG */
+.ambient-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:floatOrb 20s ease-in-out infinite;}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,var(--glow-cyan) 0%,transparent 70%);top:-200px;left:-200px;animation-delay:0s;}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,var(--glow-magenta) 0%,transparent 70%);bottom:-150px;right:-150px;animation-delay:-7s;}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,rgba(157,78,221,0.3) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s;}
+@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1);}25%{transform:translate(50px,-30px) scale(1.05);}50%{transform:translate(-30px,50px) scale(0.95);}75%{transform:translate(-50px,-20px) scale(1.02);}}
+.grid-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:1;}
+/* LOADING */
+.loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--dark-1);z-index:10000;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.8s ease,visibility 0.8s ease;}
+.loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-ring{width:80px;height:80px;position:relative;}
+.loader-ring::before,.loader-ring::after{content:'';position:absolute;border-radius:50%;border:2px solid transparent;}
+.loader-ring::before{top:0;left:0;right:0;bottom:0;border-top-color:var(--primary);border-right-color:var(--primary);animation:spin 1.2s linear infinite;}
+.loader-ring::after{top:10px;left:10px;right:10px;bottom:10px;border-bottom-color:var(--secondary);border-left-color:var(--secondary);animation:spin 0.8s linear infinite reverse;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{margin-top:30px;font-family:'Syne',sans-serif;font-size:12px;letter-spacing:4px;color:var(--primary);text-transform:uppercase;animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+/* QUOTE TOAST */
+.quote-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(10,10,18,0.95);border:1px solid var(--primary);border-radius:16px;padding:16px 28px;z-index:9999;max-width:500px;width:90%;text-align:center;transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.5s ease;opacity:0;backdrop-filter:blur(20px);}
+.quote-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.quote-toast p{font-size:13px;color:var(--primary);font-style:italic;line-height:1.6;}
+.quote-toast span{font-size:11px;color:var(--muted);display:block;margin-top:6px;}
+/* EDIT/VIEW TOGGLE */
+.mode-toggle{position:fixed;top:20px;right:20px;z-index:9000;display:flex;gap:8px;background:rgba(10,10,18,0.9);border:1px solid var(--glass-border);border-radius:50px;padding:6px;backdrop-filter:blur(20px);}
+.mode-btn{padding:8px 20px;border-radius:40px;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s ease;letter-spacing:1px;}
+.mode-btn.active{background:linear-gradient(135deg,var(--primary),var(--accent));color:#000;}
+.mode-btn:not(.active){background:transparent;color:var(--muted);}
+.mode-btn:not(.active):hover{color:#fff;}
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:8000;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,18,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);transition:all 0.3s ease;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;font-weight:500;}
+.nav-links a:hover{color:var(--primary);}
+/* MAIN WRAPPER */
+main{position:relative;z-index:10;padding-top:80px;}
+/* SECTIONS */
+section{padding:100px 40px;max-width:1200px;margin:0 auto;position:relative;}
+.section-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--primary);text-transform:uppercase;margin-bottom:12px;display:block;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1.1;margin-bottom:40px;}
+.section-title .glow{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+/* GLASS CARD */
+.glass-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;padding:32px;backdrop-filter:blur(10px);transition:all 0.4s ease;}
+.glass-card:hover{border-color:rgba(0,240,255,0.2);box-shadow:0 0 40px rgba(0,240,255,0.08);}
+/* EDIT FIELDS */
+.edit-only{display:none;}
+body.edit-mode .edit-only{display:block;}
+body.edit-mode .view-only{display:none;}
+.edit-input{background:rgba(255,255,255,0.05);border:1px solid rgba(0,240,255,0.3);border-radius:12px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;width:100%;outline:none;transition:border-color 0.3s;}
+.edit-input:focus{border-color:var(--primary);box-shadow:0 0 20px rgba(0,240,255,0.1);}
+.edit-input::placeholder{color:var(--muted);}
+textarea.edit-input{resize:vertical;min-height:100px;}
+.edit-label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;display:block;font-family:'Space Mono',monospace;}
+.upload-zone{border:2px dashed rgba(0,240,255,0.3);border-radius:16px;padding:28px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.upload-zone:hover{border-color:var(--primary);background:rgba(0,240,255,0.05);}
+.upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-zone i{font-size:28px;color:var(--primary);margin-bottom:10px;}
+.upload-zone p{font-size:13px;color:var(--muted);}
+.upload-zone .uploaded-name{font-size:12px;color:var(--primary);margin-top:8px;}
+/* HERO SECTION */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:120px;position:relative;overflow:hidden;}
+.hero-particles{position:absolute;inset:0;pointer-events:none;}
+.particle{position:absolute;width:2px;height:2px;background:var(--primary);border-radius:50%;animation:drift linear infinite;opacity:0;}
+@keyframes drift{0%{transform:translateY(100vh) translateX(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-100px) translateX(60px);opacity:0;}}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.2);border-radius:50px;padding:8px 20px;font-size:12px;letter-spacing:3px;color:var(--primary);text-transform:uppercase;margin-bottom:30px;animation:fadeSlideUp 0.8s ease both;}
+.hero-badge::before{content:'';width:8px;height:8px;background:var(--primary);border-radius:50%;animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.hero-name{font-family:'Syne',sans-serif;font-weight:800;line-height:1.05;animation:fadeSlideUp 0.8s 0.2s ease both;}
+.hero-name .line1{font-size:clamp(48px,8vw,96px);display:block;color:#fff;}
+.hero-name .line2{font-size:clamp(48px,8vw,96px);display:block;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-subtitle{font-size:18px;color:var(--muted);margin:20px 0 40px;line-height:1.7;max-width:600px;animation:fadeSlideUp 0.8s 0.4s ease both;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;animation:fadeSlideUp 0.8s 0.6s ease both;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#000;font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;border-radius:50px;border:none;cursor:pointer;transition:all 0.3s;font-family:'Outfit',sans-serif;position:relative;overflow:hidden;}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary),var(--accent));opacity:0;transition:opacity 0.3s;}
+.btn-primary:hover::before{opacity:1;}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,240,255,0.3);}
+.btn-primary span{position:relative;z-index:1;}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:transparent;color:#fff;font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;border-radius:50px;border:2px solid rgba(255,0,212,0.5);cursor:pointer;transition:all 0.3s;font-family:'Outfit',sans-serif;}
+.btn-secondary:hover{background:rgba(255,0,212,0.1);border-color:var(--secondary);transform:translateY(-3px);box-shadow:0 20px 40px rgba(255,0,212,0.2);}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+/* COVER LETTER MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9500;display:none;justify-content:center;align-items:center;backdrop-filter:blur(10px);}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--dark-2);border:1px solid rgba(0,240,255,0.2);border-radius:24px;padding:40px;max-width:700px;width:90%;max-height:85vh;overflow-y:auto;position:relative;animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes modalIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
+.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;color:var(--muted);}
+.modal-close:hover{background:rgba(255,0,212,0.1);border-color:var(--secondary);color:var(--secondary);}
+.modal-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin-bottom:24px;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-review-area{min-height:200px;background:rgba(255,255,255,0.02);border:1px solid var(--glass-border);border-radius:16px;padding:24px;font-size:14px;color:var(--text);line-height:1.8;white-space:pre-wrap;}
+.ai-reviewing{text-align:center;padding:40px;color:var(--muted);}
+.ai-reviewing .spin{font-size:32px;color:var(--primary);animation:spin 1s linear infinite;display:block;margin-bottom:16px;}
+/* ABOUT */
+#about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+.profile-area{display:flex;flex-direction:column;align-items:center;gap:24px;}
+.profile-ring{width:200px;height:200px;border-radius:50%;position:relative;cursor:pointer;}
+.profile-ring::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));animation:rotateBorder 4s linear infinite;z-index:0;}
+@keyframes rotateBorder{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.profile-img{width:100%;height:100%;border-radius:50%;object-fit:cover;position:relative;z-index:1;border:4px solid var(--dark-1);}
+.profile-placeholder{width:100%;height:100%;border-radius:50%;background:var(--dark-3);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;border:4px solid var(--dark-1);font-size:48px;color:var(--muted);}
+.insta-frame{width:100%;aspect-ratio:1;border-radius:20px;overflow:hidden;position:relative;border:1px solid var(--glass-border);cursor:pointer;background:var(--dark-3);}
+.insta-frame img{width:100%;height:100%;object-fit:cover;}
+.insta-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);}
+.insta-placeholder i{font-size:40px;color:var(--secondary);}
+.about-text{display:flex;flex-direction:column;gap:20px;}
+.about-bio-text{font-size:16px;line-height:1.9;color:var(--text);}
+.about-bio-input{width:100%;min-height:150px;}
+/* EDUCATION */
+#education .edu-grid{display:flex;flex-direction:column;gap:24px;}
+.edu-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:20px;padding:0;overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.edu-card:hover{border-color:rgba(0,240,255,0.3);transform:translateX(8px);}
+.edu-card.active{border-color:var(--primary);box-shadow:0 0 40px rgba(0,240,255,0.15);}
+.edu-header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;gap:16px;}
+.edu-icon{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.edu-meta{flex:1;}
+.edu-level{font-size:11px;letter-spacing:2px;color:var(--primary);text-transform:uppercase;font-family:'Space Mono',monospace;}
+.edu-school{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin:4px 0;}
+.edu-duration{font-size:13px;color:var(--muted);}
+.edu-toggle{width:32px;height:32px;border-radius:50%;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;flex-shrink:0;}
+.edu-card.active .edu-toggle{background:var(--primary);color:#000;border-color:var(--primary);transform:rotate(180deg);}
+.edu-body{max-height:0;overflow:hidden;transition:max-height 0.5s ease,padding 0.3s ease;}
+.edu-card.active .edu-body{max-height:400px;padding:0 28px 28px;}
+.edu-programme{font-size:15px;color:var(--text);margin-bottom:16px;line-height:1.6;}
+.edu-picture{width:100%;border-radius:12px;aspect-ratio:16/7;object-fit:cover;border:1px solid var(--glass-border);}
+.edu-pic-placeholder{width:100%;border-radius:12px;aspect-ratio:16/7;background:var(--dark-3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);border:1px dashed var(--glass-border);cursor:pointer;}
+/* SKILLS */
+#skills .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:20px;}
+.skill-item{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.skill-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,240,255,0.1),rgba(157,78,221,0.1));opacity:0;transition:opacity 0.3s;}
+.skill-item:hover::before,.skill-item.pop::before{opacity:1;}
+.skill-item:hover,.skill-item.pop{transform:translateY(-8px) scale(1.05);border-color:var(--primary);box-shadow:0 20px 40px rgba(0,240,255,0.2);}
+.skill-item.pop{animation:popSkill 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popSkill{0%{transform:translateY(0) scale(1);}30%{transform:translateY(-15px) scale(1.15);}60%{transform:translateY(-5px) scale(1.05);}100%{transform:translateY(-8px) scale(1.05);}}
+.skill-logo{width:56px;height:56px;object-fit:contain;margin:0 auto 10px;display:block;}
+.skill-logo-placeholder{width:56px;height:56px;background:var(--dark-3);border-radius:12px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--muted);}
+.skill-name{font-size:11px;color:var(--text);font-weight:600;letter-spacing:1px;}
+.add-skill-btn{background:var(--glass-bg);border:2px dashed rgba(0,240,255,0.3);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all 0.3s;color:var(--muted);}
+.add-skill-btn:hover{border-color:var(--primary);color:var(--primary);background:rgba(0,240,255,0.05);}
+/* PROJECTS */
+#projects .project-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;overflow:hidden;transition:all 0.4s ease;}
+#projects .project-card:hover{border-color:rgba(157,78,221,0.4);box-shadow:0 0 60px rgba(157,78,221,0.1);}
+.project-top{padding:32px;}
+.project-title-text{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin-bottom:12px;}
+.project-desc-text{font-size:15px;color:var(--text);line-height:1.8;margin-bottom:24px;}
+.project-tech-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;}
+.tech-logo{width:40px;height:40px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,0.05);padding:4px;border:1px solid var(--glass-border);transition:all 0.3s;cursor:pointer;}
+.tech-logo:hover{transform:scale(1.2);border-color:var(--primary);box-shadow:0 0 20px rgba(0,240,255,0.3);}
+.tech-placeholder{width:40px;height:40px;border-radius:8px;background:var(--dark-3);border:1px dashed rgba(0,240,255,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;transition:all 0.3s;}
+.tech-placeholder:hover{border-color:var(--primary);}
+/* WORK EXPERIENCE */
+#work .work-timeline{display:flex;flex-direction:column;gap:0;}
+.work-item{display:grid;grid-template-columns:40px 1fr;gap:0 24px;position:relative;}
+.work-item:not(:last-child)::before{content:'';position:absolute;left:19px;top:52px;bottom:-24px;width:2px;background:linear-gradient(to bottom,var(--primary),var(--accent),transparent);opacity:0.4;}
+.work-dot{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:8px;box-shadow:0 0 20px rgba(0,240,255,0.4);}
+.work-content{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:20px;padding:28px;margin-bottom:32px;transition:all 0.4s ease;}
+.work-content:hover{border-color:rgba(0,240,255,0.2);transform:translateX(6px);}
+.work-company{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.work-role{font-size:13px;color:var(--primary);letter-spacing:2px;text-transform:uppercase;font-family:'Space Mono',monospace;}
+.work-duration{font-size:12px;color:var(--muted);margin:8px 0 16px;}
+.work-responsibilities{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.work-responsibilities li{font-size:14px;color:var(--text);line-height:1.6;padding-left:20px;position:relative;}
+.work-responsibilities li::before{content:'▹';position:absolute;left:0;color:var(--primary);}
+/* CONTACT */
+#contact .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.social-links{display:flex;flex-direction:column;gap:16px;}
+.social-item{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;text-decoration:none;color:#fff;transition:all 0.3s;group:true;}
+.social-item:hover{transform:translateX(8px);border-color:rgba(0,240,255,0.3);}
+.social-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.social-icon.li{background:linear-gradient(135deg,#0077b5,#005e8a);}
+.social-icon.fb{background:linear-gradient(135deg,#1877f2,#0d65d0);}
+.social-icon.ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+.social-icon.wa{background:linear-gradient(135deg,#25d366,#128c7e);}
+.social-icon.ph{background:linear-gradient(135deg,var(--primary),var(--accent));}
+.social-icon.em{background:linear-gradient(135deg,var(--secondary),var(--accent));}
+.social-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;}
+.social-value{font-size:14px;font-weight:600;margin-top:2px;}
+.social-value-input{background:transparent;border:none;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;outline:none;width:100%;}
+/* THANKS */
+#thanks{text-align:center;padding:120px 40px;position:relative;overflow:hidden;}
+.thanks-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(0,240,255,0.08);animation:expandRing 4s ease-in-out infinite;}
+.thanks-ring:nth-child(2){width:450px;height:450px;animation-delay:1s;border-color:rgba(255,0,212,0.08);}
+.thanks-ring:nth-child(3){width:300px;height:300px;animation-delay:2s;border-color:rgba(157,78,221,0.08);}
+@keyframes expandRing{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1;}50%{transform:translate(-50%,-50%) scale(1.1);opacity:0.5;}}
+.thanks-emoji{font-size:64px;margin-bottom:20px;display:block;animation:bounceIn 1s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes bounceIn{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+.thanks-title{font-family:'Syne',sans-serif;font-size:clamp(36px,6vw,72px);font-weight:800;margin-bottom:16px;}
+.thanks-sub{font-size:18px;color:var(--muted);max-width:500px;margin:0 auto 40px;}
+.thanks-confetti{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;}
+.confetti-piece{position:absolute;width:8px;height:8px;top:-10px;animation:confettiFall linear infinite;}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+/* FOOTER */
+footer{text-align:center;padding:40px;border-top:1px solid var(--glass-border);position:relative;z-index:10;}
+footer p{font-size:13px;color:var(--muted);}
+/* RESPONSIVE */
+@media(max-width:768px){
+  section{padding:60px 20px;}
+  #about .about-grid,#contact .contact-grid{grid-template-columns:1fr;}
+  nav{padding:12px 20px;}
+  .nav-links{display:none;}
+  .hero-name .line1,.hero-name .line2{font-size:clamp(36px,10vw,72px);}
+  .mode-toggle{top:12px;right:12px;}
+}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--dark-1);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
+/* EDIT PANEL */
+.edit-panel{background:rgba(0,240,255,0.03);border:1px solid rgba(0,240,255,0.15);border-radius:16px;padding:20px;margin-top:16px;}
+.edit-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.edit-row.full{grid-template-columns:1fr;}
+.save-hint{font-size:11px;color:var(--primary);letter-spacing:1px;margin-top:4px;font-family:'Space Mono',monospace;}
+/* IMAGE UPLOADED PREVIEW */
+.img-preview-wrap{position:relative;display:inline-block;}
+.img-preview-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:28px;height:28px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;z-index:10;}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--primary),transparent);opacity:0.2;margin:80px 0;}
+</style>
+</head>
+<body class="edit-mode">
+
+<!-- AMBIENT -->
+<div class="ambient-bg">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-ring"></div>
+  <p class="loading-text">Initializing Portfolio...</p>
+</div>
+
+<!-- QUOTE TOAST -->
+<div class="quote-toast" id="quoteToast">
+  <p id="quoteText"></p>
+  <span id="quoteAuthor"></span>
+</div>
+
+<!-- MODE TOGGLE -->
+<div class="mode-toggle">
+  <button class="mode-btn active" id="editBtn" onclick="setMode('edit')">✏️ Edit</button>
+  <button class="mode-btn" id="viewBtn" onclick="setMode('view')">👁 View</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="scrollTo(0,0)" id="navName">Portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#work">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- COVER LETTER MODAL -->
+<div class="modal-overlay" id="coverModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('coverModal').classList.remove('open')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">📄 Cover Letter Review</div>
+    <div style="margin-bottom:20px;">
+      <div class="upload-zone" style="margin-bottom:16px;">
+        <input type="file" accept=".pdf,.doc,.docx" onchange="handleCoverLetterUpload(this)">
+        <i class="fas fa-file-alt"></i>
+        <p>Upload your Cover Letter (PDF/DOC)</p>
+        <div class="uploaded-name" id="coverFileName"></div>
+      </div>
+    </div>
+    <div id="coverReviewArea">
+      <div style="color:var(--muted);font-size:14px;text-align:center;padding:40px;">Upload your cover letter above to get an AI review.</div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ======================== HERO ======================== -->
+<section id="hero">
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-badge">✦ Available for Opportunities</div>
+
+  <!-- EDIT MODE -->
+  <div class="edit-only">
+    <div class="edit-panel" style="margin-bottom:32px;">
+      <div class="edit-row">
+        <div>
+          <span class="edit-label">Your First Name</span>
+          <input class="edit-input" id="firstName" placeholder="e.g. Ahmad" oninput="updateHero()">
+        </div>
+        <div>
+          <span class="edit-label">Your Last Name / Title</span>
+          <input class="edit-input" id="lastName" placeholder="e.g. Haziq" oninput="updateHero()">
+        </div>
+      </div>
+      <div class="edit-row full">
+        <div>
+          <span class="edit-label">Subtitle / Tagline</span>
+          <input class="edit-input" id="heroSubtitle" placeholder="e.g. Full Stack Developer · UI Designer · Problem Solver" oninput="updateHero()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW -->
+  <h1 class="hero-name">
+    <span class="line1" id="displayFirst">YOUR</span>
+    <span class="line2" id="displayLast">NAME HERE</span>
+  </h1>
+  <p class="hero-subtitle" id="displaySubtitle">Full Stack Developer · Creative Designer · Problem Solver</p>
+
+  <div class="hero-btns">
+    <button class="btn-primary" id="resumeBtn">
+      <span>📄</span>
+      <span>Resume</span>
+      <input type="file" accept=".pdf,.doc,.docx" id="resumeFile" style="position:absolute;inset:0;opacity:0;cursor:pointer;" onchange="handleResumeUpload(this)">
+    </button>
+    <button class="btn-secondary" onclick="document.getElementById('coverModal').classList.add('open')">
+      <span>✉️</span>
+      <span>Cover Letter</span>
+    </button>
+  </div>
+  <div id="resumeStatus" style="margin-top:12px;font-size:13px;color:var(--primary);display:none;"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== ABOUT ======================== -->
+<section id="about" class="reveal">
+  <span class="section-label">§ 01 — Introduction</span>
+  <h2 class="section-title">About <span class="glow">Me</span></h2>
+
+  <div class="about-grid">
+    <div class="profile-area">
+      <!-- Profile Pic -->
+      <div class="profile-ring" onclick="document.getElementById('profilePicInput').click()">
+        <div class="profile-placeholder" id="profilePlaceholder"><i class="fas fa-user"></i></div>
+        <img id="profilePicDisplay" class="profile-img" src="" alt="Profile" style="display:none;">
+        <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="handleProfilePic(this)">
+      </div>
+      <p style="font-size:11px;color:var(--muted);letter-spacing:2px;text-align:center;">CLICK TO UPLOAD PROFILE</p>
+
+      <!-- Instagram style pic -->
+      <div class="insta-frame" onclick="document.getElementById('instaPicInput').click()">
+        <div class="insta-placeholder" id="instaPlaceholder">
+          <i class="fab fa-instagram"></i>
+          <p style="font-size:12px;color:var(--muted);">Upload Featured Photo</p>
+        </div>
+        <img id="instaPicDisplay" src="" alt="Featured" style="display:none;width:100%;height:100%;object-fit:cover;">
+        <input type="file" id="instaPicInput" accept="image/*" style="display:none" onchange="handleInstaPic(this)">
+      </div>
+    </div>
+
+    <div class="about-text">
+      <div class="edit-only">
+        <span class="edit-label">About Me</span>
+        <textarea class="edit-input about-bio-input" id="aboutBioInput" placeholder="Tell the world about yourself... your passion, your journey, what drives you. Don't be shy — make it personal and authentic!" oninput="updateAbout()"></textarea>
+        <p class="save-hint">↑ Type here to update the preview below</p>
+      </div>
+
+      <div class="view-only">
+        <p class="about-bio-text" id="aboutBioDisplay" style="font-size:16px;line-height:1.9;color:var(--text);">
+          Write something about yourself here — your story, your passion, and what makes you unique as a professional.
+        </p>
+      </div>
+
+      <!-- Bio shows in both modes -->
+      <p class="edit-only about-bio-text" id="aboutBioPreview" style="font-size:15px;line-height:1.9;color:var(--muted);border-left:2px solid var(--primary);padding-left:16px;margin-top:16px;">Preview will appear here...</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== EDUCATION ======================== -->
+<section id="education" class="reveal">
+  <span class="section-label">§ 02 — Academic Journey</span>
+  <h2 class="section-title">My <span class="glow">Education</span></h2>
+
+  <div class="edu-grid" id="eduGrid">
+    <!-- Generated by JS -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== SKILLS ======================== -->
+<section id="skills" class="reveal">
+  <span class="section-label">§ 03 — Technical Arsenal</span>
+  <h2 class="section-title">My <span class="glow">Skills</span></h2>
+  <p style="color:var(--muted);margin-bottom:40px;font-size:15px;">Click each skill for a burst of energy ⚡</p>
+
+  <div class="skills-grid" id="skillsGrid">
+    <!-- Generated by JS -->
+  </div>
+
+  <div class="edit-only" style="margin-top:24px;">
+    <button class="add-skill-btn" onclick="addSkill()" style="width:100%;padding:20px;border-radius:16px;border:2px dashed rgba(0,240,255,0.3);background:transparent;color:var(--primary);font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;transition:all 0.3s;">
+      + Add New Skill
+    </button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== PROJECTS ======================== -->
+<section id="projects" class="reveal">
+  <span class="section-label">§ 04 — Featured Work</span>
+  <h2 class="section-title">My <span class="glow">Project</span></h2>
+
+  <div class="project-card glass-card">
+    <div class="project-top">
+      <div class="edit-only" style="margin-bottom:20px;">
+        <div class="edit-row">
+          <div>
+            <span class="edit-label">Project Name</span>
+            <input class="edit-input" id="projectTitle" placeholder="e.g. Smart Campus App" oninput="updateProject()">
+          </div>
+          <div>
+            <span class="edit-label">Year / Status</span>
+            <input class="edit-input" id="projectYear" placeholder="e.g. 2024 · Completed" oninput="updateProject()">
+          </div>
+        </div>
+        <div class="edit-row full">
+          <div>
+            <span class="edit-label">Project Description</span>
+            <textarea class="edit-input" id="projectDesc" placeholder="Describe your project — what problem it solves, what you built, what you're proud of..." oninput="updateProject()"></textarea>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <span class="edit-label">Tech Stack Logos (Click + to add)</span>
+          <div id="techLogosEdit" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+            <div class="tech-placeholder" onclick="addTechLogo()">+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View -->
+      <h3 class="project-title-text" id="projectTitleDisplay">Project Name</h3>
+      <p style="font-size:11px;color:var(--primary);letter-spacing:2px;font-family:'Space Mono',monospace;margin-bottom:16px;" id="projectYearDisplay">2024</p>
+      <p class="project-desc-text" id="projectDescDisplay">Describe your amazing project here. What problem does it solve? What technologies did you use? What are you most proud of?</p>
+
+      <div class="project-tech-row" id="techLogosView">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== WORK EXPERIENCE ======================== -->
+<section id="work" class="reveal">
+  <span class="section-label">§ 05 — Career Path</span>
+  <h2 class="section-title">Work <span class="glow">Experience</span></h2>
+
+  <div class="work-timeline" id="workTimeline">
+    <!-- Generated by JS -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== CONTACT ======================== -->
+<section id="contact" class="reveal">
+  <span class="section-label">§ 06 — Let's Connect</span>
+  <h2 class="section-title">Get In <span class="glow">Touch</span></h2>
+  <p style="color:var(--muted);margin-bottom:48px;font-size:16px;">I'd love to hear from you. Let's build something great together.</p>
+
+  <div class="contact-grid">
+    <div class="social-links" id="socialLinks">
+      <!-- Generated by JS -->
+    </div>
+    <div class="glass-card" style="align-self:start;">
+      <h3 style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:16px;">Quick Message</h3>
+      <p style="color:var(--muted);font-size:14px;line-height:1.7;">Want to reach out directly? Use the social links or drop an email. I typically respond within 24 hours.</p>
+      <div style="margin-top:24px;padding:20px;background:rgba(0,240,255,0.04);border-radius:12px;border:1px solid rgba(0,240,255,0.1);">
+        <p style="font-size:13px;color:var(--primary);margin-bottom:4px;font-family:'Space Mono',monospace;letter-spacing:1px;">STATUS</p>
+        <p style="font-size:15px;font-weight:600;">✅ Open to Work</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======================== THANKS ======================== -->
+<section id="thanks" class="reveal">
+  <div class="thanks-confetti" id="thanksConfetti"></div>
+  <div class="thanks-ring"></div>
+  <div class="thanks-ring"></div>
+  <div class="thanks-ring"></div>
+
+  <span class="thanks-emoji">🙏</span>
+  <h2 class="thanks-title">Thanks for <span class="glow">Visiting!</span></h2>
+  <p class="thanks-sub">Every great journey starts with a single step. Thank you for taking the time to explore my story.</p>
+
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      <span>Let's Connect →</span>
+    </button>
+  </div>
+</section>
+
+<footer>
+  <p>Crafted with 💙 · Built on Nexaverse Template · <span id="footerYear"></span></p>
+</footer>
+</main>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const STORAGE_KEY = 'portfolio_data_v2';
+let data = {
+  firstName: '', lastName: '', subtitle: '',
+  aboutBio: '',
+  profilePic: null, instaPic: null,
+  resumeFile: null, resumeFileName: '',
+  education: [
+    {level:'', school:'', programme:'', duration:'', picture:null},
+    {level:'', school:'', programme:'', duration:'', picture:null},
+    {level:'', school:'', programme:'', duration:'', picture:null}
+  ],
+  skills: [],
+  project: {title:'', year:'', desc:'', techLogos:[]},
+  work: [
+    {company:'', role:'', duration:'', responsibilities:['','','']},
+    {company:'', role:'', duration:'', responsibilities:['','','']},
+    {company:'', role:'', duration:'', responsibilities:['','','']}
+  ],
+  contact: {linkedin:'', facebook:'', instagram:'', whatsapp:'', tiktok:'', phone:'', email:''}
+};
+
+function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
+function loadData(){try{const s=localStorage.getItem(STORAGE_KEY);if(s)data={...data,...JSON.parse(s)};}catch(e){}}
+
+// ============================================================
+// QUOTES
+// ============================================================
+const quotes = [
+  {q:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+  {q:"Success is not final, failure is not fatal: It is the courage to continue that counts.",a:"Winston Churchill"},
+  {q:"Your limitation—it's only your imagination.",a:"Meena"},
+  {q:"Push yourself, because no one else is going to do it for you.",a:"Thurgasheni"},
+  {q:"Great things never come from comfort zones.",a:"Kirthana"},
+  {q:"Dream it. Wish it. Do it.",a:"Unknown"},
+  {q:"Success doesn't just find you. You have to go out and get it.",a:"You"},
+  {q:"The harder you work for something, the greater you'll feel when you achieve it.",a:"Athi"},
+  {q:"Don't stop when you're tired. Stop when you're done.",a:"Mine"},
+  {q:"Wake up with determination. Go to bed with satisfaction.",a:"Nhagulan"},
+  {q:"Opportunities don't happen, you create them.",a:"Chris Grosser"},
+  {q:"Don't be afraid to give up the good to go for the great.",a:"John D. Rockefeller"},
+  {q:"The secret of getting ahead is getting started.",a:"Mark Twain"},
+  {q:"All progress takes place outside the comfort zone.",a:"Michael John Bobak"},
+  {q:"The best time to plant a tree was 20 years ago. The second best time is now.",a:"Chinese Proverb"},
+  {q:"The road to success is often a lonely one, and you must be willing to walk it alone.",a:"Vemal"},
+  {q:"Standing alone doesn't mean I am alone. It means I am strong enough to handle things all by myself.",a:"Dhaarven"}
+];
+let quoteIdx=Math.floor(Math.random()*quotes.length);
+let quoteTimer=null;
+function showQuote(){
+  const q=quotes[quoteIdx%quotes.length];
+  quoteIdx++;
+  document.getElementById('quoteText').textContent=`"${q.q}"`;
+  document.getElementById('quoteAuthor').textContent=`— ${q.a}`;
+  const el=document.getElementById('quoteToast');
+  el.classList.add('show');
+  clearTimeout(quoteTimer);
+  quoteTimer=setTimeout(()=>el.classList.remove('show'),5000);
+}
+// Show quote on scroll section change
+let lastSection='';
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && e.target.id!==lastSection){
+      lastSection=e.target.id;
+      showQuote();
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('section').forEach(s=>observer.observe(s));
+
+// ============================================================
+// MODE
+// ============================================================
+function setMode(m){
+  if(m==='edit'){
+    document.body.classList.add('edit-mode');
+    document.getElementById('editBtn').classList.add('active');
+    document.getElementById('viewBtn').classList.remove('active');
+  } else {
+    document.body.classList.remove('edit-mode');
+    document.getElementById('viewBtn').classList.add('active');
+    document.getElementById('editBtn').classList.remove('active');
+    showQuote();
+  }
+}
+
+// ============================================================
+// HERO
+// ============================================================
+function updateHero(){
+  const fn=document.getElementById('firstName').value||'YOUR';
+  const ln=document.getElementById('lastName').value||'NAME HERE';
+  const sub=document.getElementById('heroSubtitle').value||'Full Stack Developer · Creative Designer · Problem Solver';
+  document.getElementById('displayFirst').textContent=fn.toUpperCase();
+  document.getElementById('displayLast').textContent=ln.toUpperCase();
+  document.getElementById('displaySubtitle').textContent=sub;
+  document.getElementById('navName').textContent=fn+' '+ln;
+  data.firstName=fn; data.lastName=ln; data.subtitle=sub;
+  saveData();
+}
+function handleResumeUpload(input){
+  if(!input.files[0])return;
+  const f=input.files[0];
+  const url=URL.createObjectURL(f);
+  const status=document.getElementById('resumeStatus');
+  status.textContent=`✅ Resume uploaded: ${f.name}`;
+  status.style.display='block';
+  // Make button open the PDF
+  document.getElementById('resumeBtn').onclick=function(e){
+    if(!e.target.matches('input'))window.open(url,'_blank');
+  };
+  data.resumeFileName=f.name; saveData();
+}
+
+// ============================================================
+// ABOUT
+// ============================================================
+function updateAbout(){
+  const v=document.getElementById('aboutBioInput').value;
+  document.getElementById('aboutBioPreview').textContent=v||'Preview will appear here...';
+  document.getElementById('aboutBioDisplay').textContent=v||'Write something about yourself here — your story, your passion, and what makes you unique as a professional.';
+  data.aboutBio=v; saveData();
+}
+function handleProfilePic(input){
+  if(!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  document.getElementById('profilePicDisplay').src=url;
+  document.getElementById('profilePicDisplay').style.display='block';
+  document.getElementById('profilePlaceholder').style.display='none';
+  data.profilePic=url; saveData();
+}
+function handleInstaPic(input){
+  if(!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  document.getElementById('instaPicDisplay').src=url;
+  document.getElementById('instaPicDisplay').style.display='block';
+  document.getElementById('instaPlaceholder').style.display='none';
+  data.instaPic=url; saveData();
+}
+
+// ============================================================
+// EDUCATION
+// ============================================================
+const eduIcons=['🎓','📚','🏫'];
+function renderEducation(){
+  const grid=document.getElementById('eduGrid');
+  grid.innerHTML='';
+  data.education.forEach((edu,i)=>{
+    const card=document.createElement('div');
+    card.className='edu-card';
+    card.innerHTML=`
+      <div class="edu-header" onclick="toggleEdu(${i})">
+        <div class="edu-icon">${eduIcons[i]}</div>
+        <div class="edu-meta">
+          <div class="edu-level">${edu.level||`Education Level ${i+1}`}</div>
+          <div class="edu-school">${edu.school||`School / University ${i+1}`}</div>
+          <div class="edu-duration">${edu.duration||'Duration'}</div>
+        </div>
+        <div class="edu-toggle"><i class="fas fa-chevron-down"></i></div>
+      </div>
+      <div class="edu-body" id="eduBody${i}">
+        <p class="edu-programme">${edu.programme||'Programme / Course / Major'}</p>
+        ${edu.picture
+          ? `<img class="edu-picture" src="${edu.picture}" alt="Education">`
+          : `<div class="edu-pic-placeholder" onclick="uploadEduPic(${i})"><i class="fas fa-image" style="font-size:24px;margin-bottom:8px;"></i><p style="font-size:12px;">Click to upload school photo</p></div>`}
+        <div class="edit-only" style="margin-top:20px;">
+          <div class="edit-row">
+            <div><span class="edit-label">Education Level</span><input class="edit-input" placeholder="e.g. Bachelor's Degree" value="${edu.level}" oninput="updateEdu(${i},'level',this.value)"></div>
+            <div><span class="edit-label">Duration</span><input class="edit-input" placeholder="e.g. 2020 – 2024" value="${edu.duration}" oninput="updateEdu(${i},'duration',this.value)"></div>
+          </div>
+          <div class="edit-row full">
+            <div><span class="edit-label">School / University</span><input class="edit-input" placeholder="e.g. Universiti Teknologi MARA" value="${edu.school}" oninput="updateEdu(${i},'school',this.value)"></div>
+          </div>
+          <div class="edit-row full">
+            <div><span class="edit-label">Programme</span><input class="edit-input" placeholder="e.g. Bachelor of Computer Science (Hons)" value="${edu.programme}" oninput="updateEdu(${i},'programme',this.value)"></div>
+          </div>
+          <input type="file" accept="image/*" id="eduPicFile${i}" style="display:none" onchange="loadEduPic(${i},this)">
+          <button onclick="uploadEduPic(${i})" style="margin-top:8px;padding:10px 20px;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.3);border-radius:10px;color:var(--primary);cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;">📷 Upload School Photo</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+function toggleEdu(i){
+  const cards=document.querySelectorAll('.edu-card');
+  const card=cards[i];
+  const isActive=card.classList.contains('active');
+  cards.forEach(c=>c.classList.remove('active'));
+  if(!isActive){
+    card.classList.add('active');
+    // Bounce animation
+    card.style.transform='translateX(12px)';
+    setTimeout(()=>card.style.transform='',400);
+  }
+}
+function updateEdu(i,field,val){
+  data.education[i][field]=val;
+  saveData();
+  renderEducation();
+  // re-open
+  setTimeout(()=>{
+    const cards=document.querySelectorAll('.edu-card');
+    cards[i].classList.add('active');
+  },50);
+}
+function uploadEduPic(i){document.getElementById(`eduPicFile${i}`).click();}
+function loadEduPic(i,input){
+  if(!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  data.education[i].picture=url; saveData(); renderEducation();
+  setTimeout(()=>{document.querySelectorAll('.edu-card')[i].classList.add('active');},50);
+}
+
+// ============================================================
+// SKILLS
+// ============================================================
+function renderSkills(){
+  const grid=document.getElementById('skillsGrid');
+  grid.innerHTML='';
+  data.skills.forEach((skill,i)=>{
+    const div=document.createElement('div');
+    div.className='skill-item';
+    div.onclick=()=>popSkill(div,i);
+    div.innerHTML=`
+      ${skill.logo
+        ? `<img class="skill-logo" src="${skill.logo}" alt="${skill.name}">`
+        : `<div class="skill-logo-placeholder"><i class="fas fa-code"></i></div>`}
+      <div class="skill-name">${skill.name||'Skill'}</div>
+      <div class="edit-only" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;">
+        <input class="edit-input" placeholder="Name" value="${skill.name}" oninput="updateSkill(${i},'name',this.value)" style="font-size:11px;padding:6px 10px;">
+        <label style="padding:6px 10px;background:rgba(0,240,255,0.08);border-radius:8px;font-size:11px;color:var(--primary);cursor:pointer;text-align:center;border:1px dashed rgba(0,240,255,0.3);">
+          📷 Logo
+          <input type="file" accept="image/*" style="display:none" onchange="loadSkillLogo(${i},this)">
+        </label>
+        <button onclick="removeSkill(${i})" style="padding:4px;background:rgba(255,0,212,0.1);border:1px solid rgba(255,0,212,0.3);border-radius:8px;color:var(--secondary);cursor:pointer;font-size:11px;">✕ Remove</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+function popSkill(el,i){
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+  // Sparkle
+  createSparkles(el);
+}
+function createSparkles(el){
+  const rect=el.getBoundingClientRect();
+  for(let i=0;i<8;i++){
+    const s=document.createElement('div');
+    s.style.cssText=`position:fixed;width:6px;height:6px;background:${Math.random()>0.5?'var(--primary)':'var(--secondary)'};border-radius:50%;pointer-events:none;z-index:9999;left:${rect.left+rect.width/2}px;top:${rect.top+rect.height/2}px;`;
+    document.body.appendChild(s);
+    const angle=Math.random()*360;
+    const dist=40+Math.random()*60;
+    const tx=Math.cos(angle*Math.PI/180)*dist;
+    const ty=Math.sin(angle*Math.PI/180)*dist;
+    s.animate([
+      {transform:'translate(0,0) scale(1)',opacity:1},
+      {transform:`translate(${tx}px,${ty}px) scale(0)`,opacity:0}
+    ],{duration:600,easing:'ease-out'}).onfinish=()=>s.remove();
+  }
+}
+function addSkill(){
+  data.skills.push({name:'',logo:null});
+  saveData(); renderSkills();
+}
+function removeSkill(i){
+  data.skills.splice(i,1);
+  saveData(); renderSkills();
+}
+function updateSkill(i,field,val){data.skills[i][field]=val;saveData();}
+function loadSkillLogo(i,input){
+  if(!input.files[0])return;
+  data.skills[i].logo=URL.createObjectURL(input.files[0]);
+  saveData(); renderSkills();
+}
+
+// ============================================================
+// PROJECT
+// ============================================================
+function updateProject(){
+  const t=document.getElementById('projectTitle').value;
+  const y=document.getElementById('projectYear').value;
+  const d=document.getElementById('projectDesc').value;
+  document.getElementById('projectTitleDisplay').textContent=t||'Project Name';
+  document.getElementById('projectYearDisplay').textContent=y||'2024';
+  document.getElementById('projectDescDisplay').textContent=d||'Describe your amazing project here.';
+  data.project.title=t; data.project.year=y; data.project.desc=d;
+  saveData();
+}
+function addTechLogo(){
+  const input=document.createElement('input');
+  input.type='file'; input.accept='image/*';
+  input.onchange=function(){
+    if(!this.files[0])return;
+    const url=URL.createObjectURL(this.files[0]);
+    data.project.techLogos.push(url); saveData(); renderTechLogos();
+  };
+  input.click();
+}
+function renderTechLogos(){
+  const editRow=document.getElementById('techLogosEdit');
+  const viewRow=document.getElementById('techLogosView');
+  editRow.innerHTML='<div class="tech-placeholder" onclick="addTechLogo()">+</div>';
+  viewRow.innerHTML='';
+  data.project.techLogos.forEach((url,i)=>{
+    const img=document.createElement('img');
+    img.src=url; img.className='tech-logo'; img.title='Tech Logo';
+    editRow.insertBefore(img,editRow.lastElementChild);
+    const img2=document.createElement('img');
+    img2.src=url; img2.className='tech-logo';
+    viewRow.appendChild(img2);
+  });
+}
+
+// ============================================================
+// WORK EXPERIENCE
+// ============================================================
+function renderWork(){
+  const timeline=document.getElementById('workTimeline');
+  timeline.innerHTML='';
+  const icons=['💼','🏢','⚡'];
+  data.work.forEach((job,i)=>{
+    const div=document.createElement('div');
+    div.className='work-item reveal';
+    div.innerHTML=`
+      <div class="work-dot">${icons[i]}</div>
+      <div class="work-content">
+        <div class="work-company">${job.company||`Company ${i+1}`}</div>
+        <div class="work-role">${job.role||'Your Role'}</div>
+        <div class="work-duration">${job.duration||'Duration'}</div>
+        <ul class="work-responsibilities">
+          ${job.responsibilities.filter(r=>r).map(r=>`<li>${r}</li>`).join('')}
+          ${job.responsibilities.every(r=>!r)?'<li style="color:var(--muted);">Your responsibilities will appear here</li>':''}
+        </ul>
+        <div class="edit-only" style="margin-top:20px;">
+          <div class="edit-row">
+            <div><span class="edit-label">Company Name</span><input class="edit-input" placeholder="e.g. Google Malaysia" value="${job.company}" oninput="updateWork(${i},'company',this.value)"></div>
+            <div><span class="edit-label">Your Role</span><input class="edit-input" placeholder="e.g. Software Engineer Intern" value="${job.role}" oninput="updateWork(${i},'role',this.value)"></div>
+          </div>
+          <div class="edit-row full">
+            <div><span class="edit-label">Duration</span><input class="edit-input" placeholder="e.g. Jan 2024 – Jun 2024" value="${job.duration}" oninput="updateWork(${i},'duration',this.value)"></div>
+          </div>
+          <span class="edit-label" style="margin-top:8px;">Responsibilities (one per line)</span>
+          ${[0,1,2].map(j=>`
+            <input class="edit-input" style="margin-bottom:8px;" placeholder="Responsibility ${j+1}" value="${job.responsibilities[j]||''}" oninput="updateWorkResp(${i},${j},this.value)">
+          `).join('')}
+        </div>
+      </div>
+    `;
+    timeline.appendChild(div);
+  });
+  // Re-observe new elements
+  document.querySelectorAll('.reveal').forEach(el=>{
+    revealObserver.observe(el);
+  });
+}
+function updateWork(i,field,val){
+  data.work[i][field]=val; saveData(); renderWork();
+}
+function updateWorkResp(i,j,val){
+  data.work[i].responsibilities[j]=val; saveData(); renderWork();
+}
+
+// ============================================================
+// CONTACT
+// ============================================================
+const socialDefs=[
+  {key:'linkedin',icon:'fab fa-linkedin',cls:'li',label:'LinkedIn',placeholder:'linkedin.com/in/yourname'},
+  {key:'facebook',icon:'fab fa-facebook',cls:'fb',label:'Facebook',placeholder:'facebook.com/yourname'},
+  {key:'instagram',icon:'fab fa-instagram',cls:'ig',label:'Instagram',placeholder:'@yourhandle'},
+  {key:'whatsapp',icon:'fab fa-whatsapp',cls:'wa',label:'WhatsApp',placeholder:'+60 12-345 6789'},
+  {key:'tiktok',icon:'fab fa-tiktok',cls:'tt',label:'Tiktok',placeholder:'@yourhandle'},
+  {key:'phone',icon:'fas fa-phone',cls:'ph',label:'Phone',placeholder:'+60 12-345 6789'},
+  {key:'email',icon:'fas fa-envelope',cls:'em',label:'Email',placeholder:'you@email.com'}
+];
+function renderContact(){
+  const wrap=document.getElementById('socialLinks');
+  wrap.innerHTML='';
+  socialDefs.forEach(s=>{
+    const val=data.contact[s.key]||'';
+    const div=document.createElement('div');
+    div.className='social-item';
+    div.innerHTML=`
+      <div class="social-icon ${s.cls}"><i class="${s.icon}"></i></div>
+      <div style="flex:1;">
+        <div class="social-label">${s.label}</div>
+        <div class="edit-only">
+          <input class="social-value-input" placeholder="${s.placeholder}" value="${val}" oninput="updateContact('${s.key}',this.value)">
+        </div>
+        <div class="view-only social-value">${val||s.placeholder}</div>
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+function updateContact(key,val){data.contact[key]=val;saveData();}
+
+// ============================================================
+// COVER LETTER
+// ============================================================
+async function handleCoverLetterUpload(input){
+  if(!input.files[0])return;
+  const f=input.files[0];
+  document.getElementById('coverFileName').textContent=`📎 ${f.name}`;
+  const area=document.getElementById('coverReviewArea');
+  area.innerHTML=`<div class="ai-reviewing"><span class="spin">⚙️</span><p>Reviewing your cover letter...</p></div>`;
+  try{
+    const reader=new FileReader();
+    reader.onload=async function(e){
+      const text=e.target.result;
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model:"claude-sonnet-4-20250514",
+          max_tokens:1000,
+          messages:[{role:"user",content:`You are a professional career coach. Review this cover letter and give constructive feedback. Be encouraging and specific. Cover Letter:\n\n${text}`}]
+        })
+      });
+      const data2=await res.json();
+      const review=data2.content.map(c=>c.text||'').join('');
+      area.innerHTML=`<div class="cover-review-area">${review.replace(/\n/g,'<br>')}</div>`;
+    };
+    reader.onerror=()=>{area.innerHTML=`<p style="color:var(--secondary)">Could not read file. Please try a .txt or .docx</p>`;};
+    if(f.type==='application/pdf'){
+      area.innerHTML=`<div class="cover-review-area">PDF review: Upload a .txt version for AI feedback, or paste your text below.<br><br>Tip: Copy your cover letter text and paste it in a .txt file.</div>`;
+    } else {
+      reader.readAsText(f);
+    }
+  }catch(err){
+    area.innerHTML=`<p style="color:var(--secondary)">Review unavailable. Please check your connection.</p>`;
+  }
+}
+
+// ============================================================
+// THANKS CONFETTI
+// ============================================================
+function makeConfetti(){
+  const container=document.getElementById('thanksConfetti');
+  if(!container)return;
+  const colors=['#00f0ff','#ff00d4','#9d4edd','#ffdd00','#ff6b6b'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    const size=6+Math.random()*8;
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      width:${size}px;height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation:confettiFall ${3+Math.random()*4}s linear ${Math.random()*5}s infinite;
+      opacity:0.8;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ============================================================
+// HERO PARTICLES
+// ============================================================
+function makeParticles(){
+  const c=document.getElementById('heroParticles');
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.cssText=`left:${Math.random()*100}%;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*8}s;width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;background:${Math.random()>0.5?'var(--primary)':'var(--secondary)'};`;
+    c.appendChild(p);
+  }
+}
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+const revealObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)e.target.classList.add('visible');
+  });
+},{threshold:0.15});
+function initReveal(){
+  document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function populateInputs(){
+  if(data.firstName)document.getElementById('firstName').value=data.firstName;
+  if(data.lastName)document.getElementById('lastName').value=data.lastName;
+  if(data.subtitle)document.getElementById('heroSubtitle').value=data.subtitle;
+  if(data.aboutBio){document.getElementById('aboutBioInput').value=data.aboutBio;}
+  if(data.project.title)document.getElementById('projectTitle').value=data.project.title;
+  if(data.project.year)document.getElementById('projectYear').value=data.project.year;
+  if(data.project.desc)document.getElementById('projectDesc').value=data.project.desc;
+}
+function populateDisplays(){
+  updateHero(); updateAbout(); updateProject(); renderTechLogos();
+  if(data.profilePic){
+    document.getElementById('profilePicDisplay').src=data.profilePic;
+    document.getElementById('profilePicDisplay').style.display='block';
+    document.getElementById('profilePlaceholder').style.display='none';
+  }
+  if(data.instaPic){
+    document.getElementById('instaPicDisplay').src=data.instaPic;
+    document.getElementById('instaPicDisplay').style.display='block';
+    document.getElementById('instaPlaceholder').style.display='none';
+  }
+}
+
+document.getElementById('footerYear').textContent=new Date().getFullYear();
+
+window.addEventListener('load',()=>{
+  loadData();
+  makeParticles();
+  makeConfetti();
+  renderEducation();
+  renderSkills();
+  renderWork();
+  renderContact();
+  populateInputs();
+  populateDisplays();
+  initReveal();
+
+  // Hide loading
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').classList.add('hidden');
+    setTimeout(showQuote,1500);
+  },1800);
+});
+</script>
+</body>
+</html>
