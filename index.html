@@ -66,7 +66,7 @@
   section { padding:110px 6vw; }
   .divider { height:1px;margin:0 6vw;background:linear-gradient(90deg,transparent,var(--glass-border),transparent); }
 
-  #hero { min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:110px 6vw 80px; }
+  #hero { min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:90px 6vw 70px; }
   .orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.35;will-change:transform; }
   .orb.o1 { width:420px;height:420px;background:var(--primary);top:-8%;left:-8%;animation:floatA 16s ease-in-out infinite; }
   .orb.o2 { width:380px;height:380px;background:var(--secondary);bottom:-10%;right:-6%;animation:floatB 19s ease-in-out infinite; }
@@ -77,14 +77,14 @@
   .hero-badge { position:relative;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2.5px;color:var(--primary);border:1px solid rgba(0,229,245,.3);padding:7px 18px;border-radius:99px;margin-bottom:34px;background:rgba(0,229,245,.06);animation:fadeUp .9s var(--ease) both;animation-delay:.2s;white-space:nowrap;overflow:hidden; }
   .hero-badge::after { content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);animation:sweep 4s ease-in-out infinite 1.5s; }
   @keyframes sweep { 0%{left:-60%}40%,100%{left:140%} }
-  .hero-name { font-family:'Syne',sans-serif;font-size:clamp(40px,11vw,140px);font-weight:800;line-height:1;letter-spacing:-.02em;display:block;margin-bottom:22px;word-break:break-word; }
+  .hero-name { font-family:'Syne',sans-serif;font-size:clamp(26px,7.4vw,92px);font-weight:800;line-height:1;letter-spacing:-.02em;display:block;margin-bottom:16px;word-break:break-word; }
   .line-wrap { display:block;overflow:hidden;padding-bottom:.08em; }
-  .line1, .line2 { display:block;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:220% 100%;transform:translateY(110%);animation:lineUp 1.2s var(--ease) both, gradMove 8s ease-in-out infinite alternate; }
+  .line1, .line2 { display:block;white-space:nowrap;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:220% 100%;transform:translateY(110%);animation:lineUp 1.2s var(--ease) both, gradMove 8s ease-in-out infinite alternate; }
   .line1 { background-image:linear-gradient(100deg,var(--text) 25%,var(--primary) 60%,var(--text) 90%);animation-delay:.4s,.4s; }
   .line2 { background-image:linear-gradient(100deg,var(--secondary),var(--accent),var(--secondary));animation-delay:.6s,.6s; }
   @keyframes lineUp { to{transform:translateY(0)} }
   @keyframes gradMove { from{background-position:0% 50%}to{background-position:100% 50%} }
-  .hero-subtitle { font-size:clamp(13px,3vw,18px);color:var(--muted);max-width:720px;line-height:1.7;margin-bottom:30px;padding:0 4px; }
+  .hero-subtitle { font-size:clamp(13px,3vw,18px);color:var(--muted);max-width:720px;line-height:1.7;margin-bottom:20px;padding:0 4px; }
   .hero-subtitle .seg { display:inline-block;opacity:0;transform:translateY(14px);filter:blur(4px);animation:segIn .9s var(--ease) forwards; }
   @keyframes segIn { to{opacity:1;transform:none;filter:blur(0)} }
   .hero-btns { display:flex;gap:14px;justify-content:center;flex-wrap:wrap;width:100%;animation:fadeUp .9s var(--ease) both;animation-delay:1.3s; }
@@ -217,10 +217,7 @@
   .social-icon { width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:transform .5s var(--ease); }
   .social-item:hover .social-icon { transform:rotate(-8deg) scale(1.12); }
   .social-icon.li { background:rgba(0,119,181,.2);color:#0077b5; }
-  .social-icon.fb { background:rgba(66,103,178,.2);color:#4267B2; }
-  .social-icon.ig { background:rgba(228,64,95,.2);color:#e4405f; }
   .social-icon.wa { background:rgba(37,211,102,.2);color:#25d366; }
-  .social-icon.ph { background:rgba(0,229,245,.1);color:var(--primary); }
   .social-icon.em { background:rgba(160,107,255,.12);color:var(--secondary); }
   .social-label { font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;font-family:'Space Mono',monospace; }
   .social-value { font-size:14px;font-weight:500;color:var(--text);word-break:break-word; }
@@ -256,7 +253,7 @@
     nav { padding:14px 5vw; }
     section { padding:66px 5vw; }
     .divider { margin:0 5vw; }
-    #hero { padding:96px 5vw 64px; }
+    #hero { padding:90px 5vw 64px; }
     .hero-badge { font-size:10px;padding:5px 14px;margin-bottom:24px; }
     .hero-btns { gap:10px; }
     .hero-btns a { flex:1 1 auto;justify-content:center;padding:12px 18px;font-size:13px; }
@@ -295,6 +292,10 @@
     .hero-badge { white-space:normal;text-align:center; }
     .skills-grid { grid-template-columns:repeat(2,1fr); }
   }
+  @media (max-height:760px) {
+    .term-body { min-height:104px; }
+    .hero-badge { margin-bottom:18px; }
+  }
   @media (hover:none) {
     .social-mask { opacity:0;pointer-events:none; }
     .social-actual { opacity:1;transform:none; }
@@ -323,7 +324,7 @@
 
 /* hero terminal */
 .term{width:min(580px,100%);text-align:left;background:rgba(2,5,11,.82);border:1px solid rgba(0,229,245,.25);
-  border-radius:12px;font-family:'Space Mono',monospace;font-size:12px;margin:0 auto 30px;overflow:hidden;
+  border-radius:12px;font-family:'Space Mono',monospace;font-size:12px;margin:0 auto 20px;overflow:hidden;
   box-shadow:0 18px 60px rgba(0,229,245,.08);animation:fadeUp .9s var(--ease) both;animation-delay:1.15s}
 .term-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--glass-border);color:var(--muted);font-size:10px;letter-spacing:1px}
 .term-bar i{width:9px;height:9px;border-radius:50%;display:inline-block}
@@ -341,10 +342,10 @@
 .hud::after{bottom:8px;right:8px;border-left:0;border-top:0}
 .hud:hover::before,.hud:hover::after{width:30px;height:30px;opacity:1}
 
-/* Project log stream */
+/* Project log stream (demo) */
 .logstream{margin-top:22px;background:rgba(2,5,11,.75);border:1px solid rgba(0,229,245,.18);border-radius:12px;padding:12px 14px;
   font-family:'Space Mono',monospace;font-size:11px;line-height:1.7;height:130px;overflow:hidden;position:relative}
-.logstream::before{content:'● LIVE · apache_access.log → splunk';display:block;color:var(--primary);font-size:10px;letter-spacing:1.5px;margin-bottom:6px}
+.logstream::before{content:'● DEMO · simulated apache log stream';display:block;color:var(--primary);font-size:10px;letter-spacing:1.5px;margin-bottom:6px}
 .logline{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);animation:logIn .4s var(--ease)}
 .logline.alert{color:#ff5470;text-shadow:0 0 8px rgba(255,84,112,.5)}
 @keyframes logIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
@@ -634,18 +635,6 @@
       <a class="social-item" style="--i:2" href="mailto:vemalathithan@gmail.com">
         <div class="social-icon em"><i class="fas fa-envelope"></i></div>
         <div class="social-reveal"><div class="social-mask">🔒 HOVER TO REVEAL</div><div><div class="social-label">Email</div><div class="social-actual social-value">vemalathithan@gmail.com</div></div></div>
-      </a>
-      <a class="social-item" style="--i:3" href="https://facebook.com/vemalathithan" target="_blank" rel="noopener">
-        <div class="social-icon fb"><i class="fab fa-facebook"></i></div>
-        <div class="social-reveal"><div class="social-mask">🔒 HOVER TO REVEAL</div><div><div class="social-label">Facebook</div><div class="social-actual social-value">facebook.com/vemalathithan</div></div></div>
-      </a>
-      <a class="social-item" style="--i:4" href="https://instagram.com/athi_v2" target="_blank" rel="noopener">
-        <div class="social-icon ig"><i class="fab fa-instagram"></i></div>
-        <div class="social-reveal"><div class="social-mask">🔒 HOVER TO REVEAL</div><div><div class="social-label">Instagram</div><div class="social-actual social-value">@athi_v2</div></div></div>
-      </a>
-      <a class="social-item" style="--i:5" href="tel:+60182265267">
-        <div class="social-icon ph"><i class="fas fa-phone"></i></div>
-        <div class="social-reveal"><div class="social-mask">🔒 HOVER TO REVEAL</div><div><div class="social-label">Phone</div><div class="social-actual social-value">+60 18-226 5267</div></div></div>
       </a>
     </div>
     <div class="glass-card" style="align-self:start;">
@@ -996,12 +985,10 @@ function popSkill(el) {
     <h2 class="section-title">Certifi<span class="glow">cations</span></h2>
     <div class="cert-grid stagger">${certs.map((c, i) => `<div class="cert hud ${c[3]}" style="--i:${i};position:relative">
       <div class="cert-scan"></div><div class="cert-ico"><i class="fas ${c[0]}"></i></div>
-      <div class="cert-name">${c[1]}</div><div class="cert-org">${c[2]}</div><span class="cert-tag">✔ VERIFIED</span></div>`).join('')}</div>
+      <div class="cert-name">${c[1]}</div><div class="cert-org">${c[2]}</div><span class="cert-tag">✔ COMPLETED</span></div>`).join('')}</div>
     <p class="cert-note">$ ls professional_development/ → Cybersecurity Week 2023 · Seminar &amp; Forum</p>`;
   const proj = $('#projects');
   if (proj) { proj.before(cs); proj.before(divider()); }
-  // fix: divider placed after certs section, before projects (original divider precedes certs)
-  if (proj && cs.previousElementSibling) { /* order: skills, divider, certs, divider, projects */ }
 
   const rs = document.createElement('section');
   rs.id = 'resume'; rs.className = 'reveal';
@@ -1011,7 +998,7 @@ function popSkill(el) {
       <div>
         <div class="resume-file">&gt; resume.pdf · updated 2026</div>
         <div class="resume-title">IT Support | Network &amp; Security Monitoring (NOC / SOC)</div>
-        <p class="resume-sub">Latest resume with EC-Council certifications (CEH, CND, ECSS), the Splunk SIEM project and my new role at TDK Malaysia.</p>
+        <p class="resume-sub">Latest resume with EC-Council certifications (CEH, CND, ECSS), the Splunk SIEM project and my role at TDK Malaysia.</p>
         <div class="dl-bar"><div></div></div>
         <div class="dl-txt" id="dlTxt"></div>
         <div class="resume-btns">
@@ -1027,14 +1014,11 @@ function popSkill(el) {
     </div>`;
   const contact = $('#contact');
   if (contact) { contact.before(rs); contact.before(divider()); }
-  // typed "decrypt" status when resume panel appears
-  const dl = $('#dlTxt'), msgs = ['decrypting resume.pdf ...', 'verifying certifications ... [OK]', 'resume ready ✔'];
+  const dl = $('#dlTxt'), msgs = ['loading resume.pdf ...', 'certifications listed ... [OK]', 'resume ready ✔'];
   new IntersectionObserver((en, ob) => {
     if (!en[0].isIntersecting) return; ob.disconnect();
     msgs.forEach((m, i) => setTimeout(() => dl.textContent = m, reduce ? 0 : i * 800));
   }, { threshold: .4 }).observe(rs);
-
-  // existing reveal observer runs after the loader, so new .reveal sections are picked up automatically.
 
   /* ---------- 3. Hero: matrix rain ---------- */
   const hero = $('#hero');
@@ -1102,7 +1086,7 @@ function popSkill(el) {
     $$('.section-label').forEach(l => { l.dataset.t = l.textContent; so.observe(l); });
   }
 
-  /* ---------- 6. Project: live Apache → Splunk log stream ---------- */
+  /* ---------- 6. Project: simulated Apache → Splunk log stream (demo) ---------- */
   const row = $('.project-tech-row');
   if (row) {
     const box = document.createElement('div'); box.className = 'logstream'; row.before(box);
