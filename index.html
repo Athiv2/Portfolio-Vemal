@@ -388,6 +388,51 @@
 @media(max-width:700px){.resume-card{grid-template-columns:1fr;padding:22px}.resume-stats{flex-direction:row;flex-wrap:wrap}.rs{flex:1;min-width:120px}.term{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.hero-name{animation:none}#hero::after{display:none}}
 
+
+/* ===== Cyber boot intro ===== */
+#loader{padding:0;gap:0;background:radial-gradient(ellipse at 50% 40%,#08142a 0%,#04070f 70%);overflow:hidden}
+#loaderCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.28;pointer-events:none}
+.ld-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(0,229,245,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,245,.05) 1px,transparent 1px);
+  background-size:46px 46px;-webkit-mask-image:radial-gradient(circle at 50% 45%,#000 20%,transparent 75%);mask-image:radial-gradient(circle at 50% 45%,#000 20%,transparent 75%)}
+.ld-scan{position:absolute;left:0;right:0;top:0;height:140px;pointer-events:none;background:linear-gradient(to bottom,transparent,rgba(0,229,245,.09),transparent);animation:ldScan 3.6s linear infinite}
+@keyframes ldScan{from{transform:translateY(-140px)}to{transform:translateY(100vh)}}
+.ld-corner{position:absolute;width:26px;height:26px;border:2px solid rgba(0,229,245,.55);pointer-events:none}
+.ld-corner.tl{top:18px;left:18px;border-right:0;border-bottom:0}
+.ld-corner.tr{top:18px;right:18px;border-left:0;border-bottom:0}
+.ld-corner.bl{bottom:18px;left:18px;border-right:0;border-top:0}
+.ld-corner.br{bottom:18px;right:18px;border-left:0;border-top:0}
+.ld-wrap{position:relative;z-index:2;width:min(470px,88vw);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:0 4px}
+.ld-radar{position:relative;width:128px;height:128px;border-radius:50%;border:1px solid rgba(0,229,245,.4);background:radial-gradient(circle,rgba(0,229,245,.12),transparent 68%);box-shadow:0 0 40px rgba(0,229,245,.15)}
+.ld-radar::before{content:'';position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(0,229,245,.28)}
+.ld-radar::after{content:'';position:absolute;inset:38px;border-radius:50%;border:1px solid rgba(0,229,245,.2)}
+.ld-radar .h,.ld-radar .v{position:absolute;background:rgba(0,229,245,.2)}
+.ld-radar .h{left:0;right:0;top:50%;height:1px}
+.ld-radar .v{top:0;bottom:0;left:50%;width:1px}
+.ld-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(0,229,245,.6),rgba(0,229,245,0) 30%);animation:spin 2.2s linear infinite}
+.ld-shield{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--primary);filter:drop-shadow(0 0 12px rgba(0,229,245,.75))}
+.blip{position:absolute;width:6px;height:6px;border-radius:50%;background:#ff5470;box-shadow:0 0 10px #ff5470;opacity:0;animation:blipPing 2.2s ease-out infinite}
+.blip.b1{top:22%;left:68%}.blip.b2{top:66%;left:24%;animation-delay:.7s}.blip.b3{top:72%;left:70%;animation-delay:1.4s}
+@keyframes blipPing{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.2)}60%,100%{opacity:0;transform:scale(1.8)}}
+.ld-title{position:relative;font-family:'Syne',sans-serif;font-size:clamp(18px,5vw,28px);font-weight:800;letter-spacing:.3em;margin-right:-.3em;color:var(--text)}
+.ld-title::before,.ld-title::after{content:attr(data-text);position:absolute;left:0;right:0;top:0;opacity:0}
+.ld-title::before{color:#ff2e63;animation:ldGl1 3s steps(1) infinite}
+.ld-title::after{color:var(--primary);animation:ldGl2 3s steps(1) infinite}
+@keyframes ldGl1{0%,90%,100%{opacity:0}92%{opacity:.8;transform:translate(3px,0)}95%{opacity:.8;transform:translate(-3px,1px)}}
+@keyframes ldGl2{0%,91%,100%{opacity:0}93%{opacity:.8;transform:translate(-3px,0)}96%{opacity:.8;transform:translate(3px,-1px)}}
+.ld-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted)}
+.ld-log{width:100%;min-height:118px;text-align:left;font-family:'Space Mono',monospace;font-size:11.5px;line-height:1.85;background:rgba(2,5,11,.72);border:1px solid rgba(0,229,245,.2);border-radius:10px;padding:12px 14px;overflow:hidden}
+.ld-log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);animation:logIn .35s var(--ease)}
+.ld-log .ok{color:#39ff14}
+.ld-bar-row{width:100%;display:flex;align-items:center;gap:12px}
+.ld-bar-row .loader-bar-wrap{flex:1;width:auto}
+.ld-bar-row .loader-pct{min-width:40px;text-align:right}
+.ld-grant{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;letter-spacing:5px;color:#39ff14;text-shadow:0 0 14px rgba(57,255,20,.6);height:18px;opacity:0;transform:scale(.9);transition:opacity .3s,transform .4s var(--ease)}
+.ld-grant.show{opacity:1;transform:none}
+.ld-skip{background:none;border:0;color:var(--muted);font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:3px;opacity:.6;cursor:pointer;padding:4px 8px}
+.ld-skip:hover{color:var(--primary);opacity:1}
+@media(max-height:620px){.ld-radar{width:92px;height:92px}.ld-shield{font-size:24px}.ld-log{min-height:96px}}
+@media(prefers-reduced-motion:reduce){.ld-scan,.ld-sweep,.blip{animation:none}}
 </style>
 </head>
 <body>
@@ -396,10 +441,28 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
-<div id="loader">
-  <p class="loader-name">Welcome To My Portfolio</p>
-  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-  <p class="loader-pct" id="loaderPct">0%</p>
+<div id="loader" aria-label="Loading portfolio">
+  <canvas id="loaderCanvas"></canvas>
+  <div class="ld-grid"></div>
+  <div class="ld-scan"></div>
+  <span class="ld-corner tl"></span><span class="ld-corner tr"></span><span class="ld-corner bl"></span><span class="ld-corner br"></span>
+  <div class="ld-wrap">
+    <div class="ld-radar">
+      <div class="ld-sweep"></div>
+      <i class="h"></i><i class="v"></i>
+      <b class="blip b1"></b><b class="blip b2"></b><b class="blip b3"></b>
+      <div class="ld-shield"><i class="fas fa-shield-halved"></i></div>
+    </div>
+    <div class="ld-title" id="ldTitle" data-text="SECURE SESSION">SECURE SESSION</div>
+    <div class="ld-sub">VEMALATHITHAN SARAVANAN · PORTFOLIO</div>
+    <div class="ld-log" id="ldLog"></div>
+    <div class="ld-bar-row">
+      <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+      <p class="loader-pct" id="loaderPct">0%</p>
+    </div>
+    <div class="ld-grant" id="ldGrant">ACCESS GRANTED</div>
+    <button class="ld-skip" id="ldSkip" type="button">TAP TO SKIP</button>
+  </div>
 </div>
 
 <canvas id="bg-canvas"></canvas>
@@ -725,22 +788,65 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('quoteAuthor').textContent = '— ' + QUOTES[0].a;
   buildDots();
 
-  let pct = 0;
-  const bar = document.getElementById('loaderBar'), pctEl = document.getElementById('loaderPct'), loader = document.getElementById('loader');
-  const interval = setInterval(() => {
-    pct += Math.random() * 8 + 2;
-    if (pct >= 100) {
-      pct = 100; clearInterval(interval);
-      bar.style.width = '100%'; pctEl.textContent = '100%';
-      setTimeout(() => {
-        loader.classList.add('hidden');
-        document.body.classList.add('ready');
-        initReveal(); startQuoteTimer();
-      }, 450);
-    }
+  /* ---- cyber boot intro ---- */
+  const loader = document.getElementById('loader');
+  const bar = document.getElementById('loaderBar'), pctEl = document.getElementById('loaderPct');
+  const logEl = document.getElementById('ldLog'), grant = document.getElementById('ldGrant');
+  const BOOT = [
+    [6,  'Initializing secure environment'],
+    [26, 'Scanning network interfaces'],
+    [48, 'Loading modules: Networking · SIEM · Linux'],
+    [70, 'Establishing secure connection'],
+    [90, 'Mounting portfolio']
+  ];
+  let pct = 0, shown = 0, finished = false, rafId = null;
+  const lc = document.getElementById('loaderCanvas'), lx = lc.getContext('2d');
+  const lch = '01ABCDEF<>/{}#$%'.split('');
+  let lcols, ldrops;
+  function lsize() { lc.width = innerWidth; lc.height = innerHeight; lcols = Math.floor(lc.width / 16); ldrops = Array.from({length:lcols}, () => Math.random() * -40); }
+  lsize();
+  function lrain() {
+    lx.fillStyle = 'rgba(4,7,15,.14)'; lx.fillRect(0, 0, lc.width, lc.height);
+    lx.font = '14px "Space Mono",monospace';
+    ldrops.forEach((y, i) => {
+      lx.fillStyle = Math.random() > .97 ? '#ffffff' : (i % 4 ? '#00e5f5' : '#a06bff');
+      lx.fillText(lch[Math.random() * lch.length | 0], i * 16, y * 16);
+      ldrops[i] = y * 16 > lc.height && Math.random() > .975 ? 0 : y + 1;
+    });
+  }
+  let lastT = 0;
+  (function loop(t) { if (finished) return; if (!reduceMotion && t - lastT > 60) { lastT = t; lrain(); } rafId = requestAnimationFrame(loop); })(0);
+
+  function addLine(txt) {
+    const d = document.createElement('div');
+    d.innerHTML = '<span class="ok">[ OK ]</span> ' + txt;
+    logEl.appendChild(d);
+    while (logEl.children.length > 5) logEl.removeChild(logEl.firstChild);
+  }
+  function finish() {
+    if (finished) return; finished = true;
+    cancelAnimationFrame(rafId); clearInterval(tick);
+    bar.style.width = '100%'; pctEl.textContent = '100%';
+    while (shown < BOOT.length) addLine(BOOT[shown++][1]);
+    grant.classList.add('show');
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      document.body.classList.add('ready');
+      initReveal(); startQuoteTimer();
+    }, reduceMotion ? 150 : 750);
+  }
+  const DURATION = reduceMotion ? 600 : 3200, t0 = performance.now();
+  const tick = setInterval(() => {
+    const t = Math.min((performance.now() - t0) / DURATION, 1);
+    pct = 100 * (1 - Math.pow(1 - t, 2.2));
+    while (shown < BOOT.length && pct >= BOOT[shown][0]) addLine(BOOT[shown++][1]);
     bar.style.width = pct + '%';
     pctEl.textContent = Math.floor(pct) + '%';
-  }, 55);
+    if (t >= 1) finish();
+  }, 40);
+  document.getElementById('ldSkip').addEventListener('click', finish);
+  loader.addEventListener('dblclick', finish);
+  addEventListener('resize', lsize);
 
   initNav(); initTilt(); initSpot(); initMagnet(); initRipple(); initScroll();
 });
