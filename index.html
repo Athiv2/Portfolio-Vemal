@@ -389,6 +389,7 @@
 @media(prefers-reduced-motion:reduce){.hero-name{animation:none}#hero::after{display:none}}
 
 
+.skill-lvl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);margin-top:4px;text-transform:uppercase}
 /* ===== Cyber boot intro ===== */
 #loader{padding:0;gap:0;background:radial-gradient(ellipse at 50% 40%,#08142a 0%,#04070f 70%);overflow:hidden}
 #loaderCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.28;pointer-events:none}
@@ -526,7 +527,7 @@
       <div class="stats-row stagger">
         <div class="stat-item" style="--i:1"><span class="stat-num" data-count="3">3</span><span class="stat-label">Work Experiences</span></div>
         <div class="stat-item" style="--i:2"><span class="stat-num" data-count="1">1</span><span class="stat-label">Major Project</span></div>
-        <div class="stat-item" style="--i:3"><span class="stat-num" data-count="7" data-suffix="+">7+</span><span class="stat-label">Tech Skills</span></div>
+        <div class="stat-item" style="--i:3"><span class="stat-num" data-count="7" data-suffix="">7</span><span class="stat-label">Tech Skills</span></div>
       </div>
     </div>
   </div>
@@ -601,12 +602,13 @@
   <p style="color:var(--muted);margin-bottom:32px;font-size:14px;">Click each skill for a burst of energy ⚡</p>
   <div class="skills-grid stagger" id="skillsGrid">
     <div class="skill-item spot" style="--i:0" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><div class="skill-name">Python</div></div>
-    <div class="skill-item spot" style="--i:1" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"><div class="skill-name">JavaScript</div></div>
-    <div class="skill-item spot" style="--i:2" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><div class="skill-name">C++</div></div>
-    <div class="skill-item spot" style="--i:3" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"><div class="skill-name">C#</div></div>
-    <div class="skill-item spot" style="--i:4" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"><div class="skill-name">HTML</div></div>
-    <div class="skill-item spot" style="--i:5" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"><div class="skill-name">PHP</div></div>
-    <div class="skill-item spot" style="--i:6" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"><div class="skill-name">SQL</div></div>
+    <div class="skill-item spot" style="--i:1" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><div class="skill-name">C++</div></div>
+    <div class="skill-item spot" style="--i:2" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"><div class="skill-name">C#</div></div>
+    <div class="skill-item spot" style="--i:3" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"><div class="skill-name">HTML</div></div>
+    <div class="skill-item spot" style="--i:4" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux"><div class="skill-name">Linux</div></div>
+    <div class="skill-item spot" style="--i:5" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-plain.svg" alt="Ubuntu"><div class="skill-name">Ubuntu</div></div>
+    <div class="skill-item spot" style="--i:6" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/powershell/powershell-original.svg" alt="PowerShell"><div class="skill-name">PowerShell</div></div>
+    <div class="skill-item spot" style="--i:7" onclick="popSkill(this,event)"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache"><div class="skill-name">Apache</div></div>
   </div>
 </section>
 
